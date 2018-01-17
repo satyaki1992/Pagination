@@ -52,18 +52,30 @@
 		</c:forEach>
 		<tr>
 			<td>
+				<button onclick="takeContextPage('firstPage')">First</button>
+			</td>
+			<td>
 				<button onclick="takeContextPage('previous')">Previous</button>
 			</td>
-			<td><input type="text" size="2" id="pageNum">
-			<button type="button" onclick="takeContextPage('goToPage')">Go To Page</button>
-			<input type="hidden" id="totalCountRows">
+			<td>
+				<input type="text" size="2" id="pageNum" readonly>
+				<!-- <button type="button" onclick="takeContextPage('goToPage')">Go To Page</button> -->
+				<input type="hidden" id="totalCountRows">
 			</td>
 			<td>
 				<button  onclick="takeContextPage('next')">Next</button>
 			</td>
+			<td>
+				<button  onclick="takeContextPage('lastPage')">Last</button>
+			</td>
 		</tr>
 	</table>
-
+	<select id="numOfPages">
+		<option value="20">20</option>
+		<option value="15">15</option>
+		<option value="10">10</option>
+		<option value="5">5</option>
+	</select>
 	<script type="text/javascript">
 		function takeContextPage(page) {
 			var pageNum = document.getElementById("pageNum").value;
@@ -83,17 +95,16 @@
 					window.location = ctx + '/allMovies?page='+pageNum;
 				}
 			}
-			
 			if(page=='next')
 			{
-				if(get('page')==totalPages)
+				if(pageNum==totalPages)
 					alert('You are already on the last page');
-				else if(get('page')>totalPages)
+				else if(pageNum>totalPages)
 					alert('Total pagenum must be less or equal to total pages');
-				else if(get('page')<0)
+				else if(pageNum<0)
 					alert('A valid pageNum must be entered');
 				else{
-					pageNum = +get('page') +1;
+					pageNum = +pageNum +1;
 					document.getElementById("pageNum").value=pageNum;
 					window.location = ctx + '/allMovies?page='+pageNum;
 				}
@@ -108,6 +119,14 @@
 					document.getElementById("pageNum").value=pageNum;
 					window.location = ctx + '/allMovies?page='+pageNum;
 				}
+			}
+			if(page == 'firstPage')
+			{
+				window.location = ctx + '/allMovies?page='+1;
+			}
+			if(page == 'lastPage')
+			{
+				window.location = ctx + '/allMovies?page='+totalPages;
 			}
 		}
 	</script>
